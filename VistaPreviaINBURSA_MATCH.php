@@ -19,21 +19,24 @@ if($identioficador != '')
 	$var_respuesta = $conexion->variablespermisos('','INBURSA_VERIFICAR','ver');
  $output .= '
 <div id="mensajeMATCHAdocumentos"></div> 
- <form  id="Listado_MATCH_documentos_form"> 
-      <div class="table-responsive">  
+ <form  id="Listado_MATCH_documentos_form">
+      <div class="table-responsive match-scroll" style="max-height:400px; overflow-y:auto;">
            <table class="table table-bordered">
-		   <tr>
-		   <td width="30%">id</td>		   
-		   <td width="30%">NÚMERO DE EVENTO</td>
-		   <td width="30%">NOMBRE DEL EVENTO</td>
-		   <td width="30%">CONCEPTO DEL GASTO</td>
-		   <td width="30%">UUID</td>
-		   <td width="30%">DESCRIPCION</td>
-		   <td width="30%">FECHA TIMBRADO</td>
-		   <td width="30%">TOTAL</td>
-		   <td width="30%">MATCH</td>		   
-		   </tr>
-		   ';
+                   <thead class="bg-light" style="position:sticky; top:0; z-index:1;">
+                   <tr>
+                   <th width="30%">id</th>
+                   <th width="30%">NÚMERO DE EVENTO</th>
+                   <th width="30%">NOMBRE DEL EVENTO</th>
+                   <th width="30%">CONCEPTO DEL GASTO</th>
+                   <th width="30%">UUID</th>
+                   <th width="30%">DESCRIPCION</th>
+                   <th width="30%">FECHA TIMBRADO</th>
+                   <th width="30%">TOTAL</th>
+                   <th width="30%">MATCH</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   ';
 
     		while($row = mysqli_fetch_array($queryVISTAPREV)){
 				if($row['TARJETA']!='INBURSA' and $row['TABLE_MATCH']=='si'){
@@ -80,7 +83,7 @@ if($identioficador != '')
         </tr>
      ';
     //IPCIERRE
-    $output .= '</table></div></form>';
+ $output .= '</tbody></table></div></form>';
     echo $output;
 }
 //
@@ -118,8 +121,11 @@ function pasarmatchdocumento(pasardocumentomatch_id,IpMATCHDOCUMENTOS2,tarjeta){
 
 }
 
-
     $(document).ready(function(){
+
+        if ($.fn.draggable) {
+            $('#Listado_MATCH_documentos_form').draggable();
+        }
 
 $("#clickMATCH").click(function(){
 	
@@ -145,6 +151,6 @@ $("#clickMATCH").click(function(){
    
 });
 
-		});
-		
-	</script>
+               });
+
+        </script>
