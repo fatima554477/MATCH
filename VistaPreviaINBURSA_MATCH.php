@@ -23,7 +23,7 @@ if($identioficador != '')
       <div class="table-responsive match-scroll" style="max-height:400px; overflow-y:auto;">
            <table class="table table-bordered">
                    <thead class="bg-light" style="position:sticky; top:0; z-index:1;">
-                   <tr>
+                   <tr style="text-align:center">
                    <th width="30%">id</th>
                    <th width="30%">NÚMERO DE EVENTO</th>
                    <th width="30%">NOMBRE DEL EVENTO</th>
