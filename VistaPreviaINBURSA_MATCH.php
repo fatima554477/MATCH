@@ -149,7 +149,7 @@
                         <tr>
                             <td width="30%" colspan="5"></td>
                             <td width="30%">
-                                <label>GUARDAR</label>
+                                <label></label>
                                 <input type="hidden" value="<?php echo htmlspecialchars($lastRowId, ENT_QUOTES, 'UTF-8'); ?>" name="IpMATCHDOCUMENTOS" id="IpMATCHDOCUMENTOS"/>
                                 <input type="hidden" value="enviarMATCHDOCUMENTOS" name="enviarMATCHDOCUMENTOS"/>
                             </td>
