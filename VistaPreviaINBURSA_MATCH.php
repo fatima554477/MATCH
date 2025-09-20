@@ -48,6 +48,11 @@
             $matchStatus = (strpos($checkboxState, 'checked') !== false) ? 'asignado' : 'sin-asignar';
 
             $rowsHtml[] = '<tr data-match-status="' . $matchStatus . '">' .
+                '<td class="match-col-select text-center align-middle">' .
+                    '<div class="form-check m-0 d-inline-flex justify-content-center">' .
+                        '<input type="checkbox" class="form-check-input match-row-selector" data-row-id="' . $idd . '" aria-label="Seleccionar fila ' . $idd . '">' .
+                    '</div>' .
+                '</td>' .
                 '<td class="match-col-id" data-value="' . $idd . '">' . $idd . '</td>' .
                 '<td class="match-col-numero-evento" data-value="' . $numeroEvento . '">' . $numeroEvento . '</td>' .
                 '<td class="match-col-nombre-evento" data-value="' . $nombreEvento . '">' . $nombreEvento . '</td>' .
@@ -65,12 +70,22 @@
             $lastRowId = (string) $idd;
         }
 
-        if (empty($rowsHtml)) {
-            $rowsHtml[] = '<tr><td colspan="9" class="text-center text-muted">No se encontraron registros.</td></tr>';
+          $rowsHtml[] = '<tr><td colspan="10" class="text-center text-muted">No se encontraron registros.</td></tr>';
         }
+
 
         ob_start();
         ?>
+        <style>
+            #Listado_MATCH_documentos tbody tr.match-row-selected {
+                background-color: #fff3cd;
+            }
+
+            #Listado_MATCH_documentos tbody tr.match-row-selected td {
+                background-color: #fff3cd;
+                transition: background-color 0.2s ease-in-out;
+            }
+        </style>
         <div id="mensajeMATCHAdocumentos"></div>
         <div class="card card-body mb-3 match-search-card">
             <h6 class="mb-3">BÚSQUEDA AVANZADA</h6>
@@ -147,8 +162,8 @@
                     <tbody>
                         <?php echo implode("\n", $rowsHtml); ?>
                         <tr>
+                            <td width="10%"></td>
                             <td width="30%" colspan="5"></td>
-                            <td width="30%">
                                 <label></label>
                                 <input type="hidden" value="<?php echo htmlspecialchars($lastRowId, ENT_QUOTES, 'UTF-8'); ?>" name="IpMATCHDOCUMENTOS" id="IpMATCHDOCUMENTOS"/>
                                 <input type="hidden" value="enviarMATCHDOCUMENTOS" name="enviarMATCHDOCUMENTOS"/>
@@ -398,6 +413,15 @@ $(document).ready(function() {
                 $.getScript(load3(1));
             }
         });
+    });
+
+    $('#Listado_MATCH_documentos').on('change', '.match-row-selector', function() {
+        var $row = $(this).closest('tr');
+        $row.toggleClass('match-row-selected', this.checked);
+    });
+
+    $('#Listado_MATCH_documentos .match-row-selector:checked').each(function() {
+        $(this).closest('tr').addClass('match-row-selected');
     });
 
     $('.match-filter-input').on('keyup change', function() {
