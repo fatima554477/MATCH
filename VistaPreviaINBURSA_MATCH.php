@@ -124,7 +124,7 @@
                     </select>
                 </div>
                 <div class="col-sm-6 col-md-3 text-sm-end">
-                    <button type="button" class="btn btn-sm btn-outline-secondary mt-3 mt-sm-0" id="match-filter-clear">Limpiar filtros</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mt-3 mt-sm-0" id="match-filter-clear">LIMPIAR FILTRO</button>
                 </div>
             </div>
         </div>
@@ -355,7 +355,34 @@ function applyMatchFilters() {
 
 $(document).ready(function() {
     if ($.fn.draggable) {
-        $('#Listado_MATCH_documentos_form').draggable();
+        $('#dataModal4')
+            .on('shown.bs.modal', function () {
+                var $dialog = $(this).find('.modal-dialog');
+                if (!$dialog.hasClass('ui-draggable')) {
+                    $dialog.draggable({
+                        handle: '.modal-header',
+                        containment: 'window'
+                    });
+                }
+                $dialog.css({
+                    top: 0,
+                    left: 0,
+                    transform: 'none'
+                });
+                $(this).find('.modal-header').css('cursor', 'move');
+            })
+            .on('hidden.bs.modal', function () {
+                var $dialog = $(this).find('.modal-dialog');
+                if ($dialog.hasClass('ui-draggable')) {
+                    $dialog.draggable('destroy');
+                }
+                $dialog.css({
+                    top: '',
+                    left: '',
+                    transform: ''
+                });
+                $(this).find('.modal-header').css('cursor', '');
+            });
     }
 
     $('#clickMATCH').click(function() {
