@@ -68,21 +68,22 @@
             '</tr>';
 
             $lastRowId = (string) $idd;
+       }
+
+        if (empty($rowsHtml)) {
+            $rowsHtml[] = '<tr><td colspan="10" class="text-center text-muted">No se encontraron registros.</td></tr>';
         }
 
-          $rowsHtml[] = '<tr><td colspan="10" class="text-center text-muted">No se encontraron registros.</td></tr>';
-        }
 
-
-        ob_start();
+        ob_start();  
         ?>
         <style>
             #Listado_MATCH_documentos tbody tr.match-row-selected {
-                background-color: #fff3cd;
+                background-color: #F54927;
             }
 
             #Listado_MATCH_documentos tbody tr.match-row-selected td {
-                background-color: #fff3cd;
+                background-color:#78F26B;
                 transition: background-color 0.2s ease-in-out;
             }
         </style>
