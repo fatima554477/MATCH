@@ -13,9 +13,12 @@ if($identioficador != '')
 
 $queryVISTAPREV = $conexion->Listado_BBVA2($identioficador);
  $output .= '
-<div id="mensajeBBVAActualiza2"></div> 
- <form  id="Listado_BBVAform"> 
-      <div class="table-responsive">  
+<div id="vistaPreviaBBVA" class="vista-previa-bbva">
+  <div class="vista-previa-bbva-header">Vista Previa BBVA</div>
+  <div class="vista-previa-bbva-body">
+    <div id="mensajeBBVAActualiza2"></div>
+    <form  id="Listado_BBVAform">
+      <div class="table-responsive">
            <table class="table table-bordered">';
     $row = mysqli_fetch_array($queryVISTAPREV);
     		
@@ -77,94 +80,63 @@ $queryVISTAPREV = $conexion->Listado_BBVA2($identioficador);
 			
 			<button class="btn btn-sm btn-outline-success px-5" type="button" id="clickBBVA">GUARDAR</button>
 			
-			<input type="hidden" value="enviarBBVA"  name="enviarBBVA"/>
+                        <input type="hidden" value="enviarBBVA"  name="enviarBBVA"/>
 
-			</td>  
+                        </td>
         </tr>
      ';
     //IPCIERRE
-    $output .= '</table></div></form>';
+    $output .= '</table></div></form></div></div>';
     echo $output;
 }
 //
 ?>
+<style>
+.vista-previa-bbva-body{max-height:400px;overflow-y:auto;}
+.vista-previa-bbva-header{position:sticky;top:0;background:#fff;padding:10px;cursor:move;z-index:100;}
+</style>
 
 <script>
 
-/*
-var fileobj;
-	function upload_file(e,name) {
-	    e.preventDefault();
-	    fileobj = e.dataTransfer.files[0];
-	    ajax_file_upload1(fileobj,name);
-	}
-	 
-	function file_explorer(name) {
-	    document.getElementsByName(name)[0].click();
-	    document.getElementsByName(name)[0].onchange = function() {
-	        fileobj = document.getElementsByName(name)[0].files[0];
-	        ajax_file_upload1(fileobj,name);
-	    };
-	}
-
-	function ajax_file_upload1(file_obj,nombre) {
-	    if(file_obj != undefined) {
-	        var form_data = new FormData();                  
-	        form_data.append(nombre, file_obj);
-	        form_data.append("IpBBVA",  $("#IpBBVA").val());
-	        $.ajax({
-	            type: 'POST',
-				url:"reportes/controladorMH.php",
-				  dataType: "html",
-	            contentType: false,
-	            processData: false,
-	            data: form_data,
- beforeSend: function() {
-$('#2'+nombre).html('<p style="color:green;">Cargando archivo!</p>');
-$('#respuestaser').html('<p style="color:green;">Actualizado!</p>');
-    },				
-	            success:function(response) {
-
-if($.trim(response) == 2 ){
-
-$('#2'+nombre).html('<p style="color:red;">Error, archivo diferente a PDF, JPG o GIF.</p>');
-$('#'+nombre).val("");
-}else{
-$('#'+nombre).val(response);
-$('#2'+nombre).html('<a target="_blank" href="includes/archivos/'+$.trim(response)+'">Visualizar!</a>');	
-}
-
-	            }
-	        });
-	    }
-	}
-*/
 
     $(document).ready(function(){
+        const modal = document.getElementById('vistaPreviaBBVA');
+        const header = document.querySelector('.vista-previa-bbva-header');
+        let isDown = false;
+        let offset = [0,0];
 
-$("#clickBBVA").click(function(){
-	
-   $.ajax({  
-	url:"reportes/controladorMH.php",
-    method:"POST",  
-    data:$('#Listado_BBVAform').serialize(),
+        header.addEventListener('mousedown', function(e){
+            isDown = true;
+            offset = [modal.offsetLeft - e.clientX, modal.offsetTop - e.clientY];
+        });
+        document.addEventListener('mouseup', function(){
+            isDown = false;
+        });
+        document.addEventListener('mousemove', function(e){
+            if (!isDown) return;
+            modal.style.position = 'absolute';
+            modal.style.left = (e.clientX + offset[0]) + 'px';
+            modal.style.top = (e.clientY + offset[1]) + 'px';
+        });
 
-    beforeSend:function(){  
-    $('#mensajeBBVAActualiza2').html('cargando'); 
-    }, 	
-	
-    success:function(data){
-	
-		$("#reset_BBVA").load(location.href + " #reset_BBVA");
-    $('#mensajeBBVA').html("<span id='ACTUALIZADO' >"+data+"</span>"); 
+        $("#clickBBVA").click(function(){
+           $.ajax({
+                url:"reportes/controladorMH.php",
+            method:"POST",
+            data:$('#Listado_BBVAform').serialize(),
 
-			$('#dataModal').modal('hide');
+            beforeSend:function(){
+            $('#mensajeBBVAActualiza2').html('cargando');
+            },
 
-    }  
-   });
-   
-});
+            success:function(data){
+                        $("#reset_BBVA").load(location.href + " #reset_BBVA");
+            $('#mensajeBBVA').html("<span id=\"ACTUALIZADO\" >"+data+"</span>");
+                        $('#dataModal').modal('hide');
+            }
+           });
+        });
 
-		});
-		
-	</script>
+                });
+
+        </script>

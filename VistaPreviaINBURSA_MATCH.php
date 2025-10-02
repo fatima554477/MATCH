@@ -149,6 +149,7 @@
                 <table class="table table-bordered" id="Listado_MATCH_documentos">
                     <thead class="bg-light" style="position:sticky; top:0; z-index:1;">
                         <tr class="text-center">
+                            <th width="30%"></th>
                             <th width="30%">id</th>
                             <th width="30%">NÚMERO DE EVENTO</th>
                             <th width="30%">NOMBRE DEL EVENTO</th>
